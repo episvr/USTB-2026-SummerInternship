@@ -29,6 +29,7 @@ const setOption = () => {
   if (!chart) return
   chart.setOption({
     backgroundColor: 'transparent',
+    animationDurationUpdate: 800,
     tooltip: { trigger: 'item' },
     radar: {
       indicator: props.indicators,

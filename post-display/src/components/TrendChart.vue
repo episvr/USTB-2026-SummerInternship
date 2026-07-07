@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="{ 'card--hero': hero }">
     <div class="card__title">{{ title }}</div>
     <div ref="chartRef" class="chart"></div>
   </div>
@@ -13,7 +13,8 @@ const props = defineProps({
   title: String,
   dates: Array,
   posts: Array,
-  sensitive: Array
+  sensitive: Array,
+  hero: Boolean
 })
 
 const chartRef = ref(null)
@@ -30,6 +31,7 @@ const setOption = () => {
   if (!chart) return
   chart.setOption({
     backgroundColor: 'transparent',
+    animationDurationUpdate: 800,
     tooltip: {
       trigger: 'axis',
       axisPointer: { type: 'cross' }
@@ -102,5 +104,9 @@ watch(() => [props.dates, props.posts, props.sensitive], setOption, { deep: true
 .chart {
   width: 100%;
   height: 280px;
+}
+
+.card--hero .chart {
+  height: 320px;
 }
 </style>

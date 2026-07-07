@@ -31,6 +31,7 @@ const setOption = () => {
   if (!chart) return
   chart.setOption({
     backgroundColor: 'transparent',
+    animationDurationUpdate: 800,
     tooltip: { trigger: 'axis' },
     legend: {
       data: ['正面', '中性', '负面'],

@@ -1,5 +1,9 @@
 <template>
-  <div class="dashboard">
+  <div v-if="loading" class="dashboard__loading">
+    <div class="dashboard__loading-spinner"></div>
+    <p>加载中...</p>
+  </div>
+  <div v-else class="dashboard">
     <header class="dashboard__header">
       <div>
         <h1 class="dashboard__title">Post Display 数据大屏</h1>
@@ -53,12 +57,15 @@
     </section>
 
     <section class="dashboard__main">
-      <TrendChart
-        title="24 小时发帖趋势监控"
-        :dates="trendData.dates"
-        :posts="trendData.posts"
-        :sensitive="trendData.sensitive"
-      />
+      <div class="dashboard__main-hero">
+        <TrendChart
+          hero
+          title="24 小时发帖趋势监控"
+          :dates="trendData.dates"
+          :posts="trendData.posts"
+          :sensitive="trendData.sensitive"
+        />
+      </div>
       <SentimentChart
         title="舆情情感分布"
         :data="sentimentData"
@@ -120,23 +127,25 @@ import TopUsers from './components/TopUsers.vue'
 import RecentActivity from './components/RecentActivity.vue'
 import TopicRadar from './components/TopicRadar.vue'
 import SensitiveMonitor from './components/SensitiveMonitor.vue'
-import {
-  mockStats as stats,
-  trendData,
-  sentimentData,
-  sentimentTrend,
-  activityHeatmap,
-  platformData,
-  topicRadar,
-  keywordRank,
-  topUsers,
-  recentActivity,
-  tagData,
-  sensitivePosts
-} from './mock/data.js'
+import { fetchAllDashboardData } from './api.js'
 
+const stats = ref({})
+const trendData = ref({ dates: [], posts: [], sensitive: [] })
+const sentimentData = ref({ positive: 0, neutral: 0, negative: 0 })
+const sentimentTrend = ref({ dates: [], positive: [], neutral: [], negative: [] })
+const activityHeatmap = ref([])
+const platformData = ref([])
+const topicRadar = ref({ indicators: [], data: [] })
+const keywordRank = ref([])
+const topUsers = ref([])
+const recentActivity = ref([])
+const tagData = ref([])
+const sensitivePosts = ref([])
+
+const loading = ref(true)
 const currentTime = ref('')
 let timer = null
+let refreshTimer = null
 
 const updateTime = () => {
   currentTime.value = new Date().toLocaleString('zh-CN', {
@@ -149,13 +158,36 @@ const updateTime = () => {
   })
 }
 
+const loadData = async () => {
+  try {
+    const data = await fetchAllDashboardData()
+    stats.value = data.stats
+    trendData.value = data.trendData
+    sentimentData.value = data.sentimentData
+    sentimentTrend.value = data.sentimentTrend
+    activityHeatmap.value = data.activityHeatmap
+    platformData.value = data.platformData
+    topicRadar.value = data.topicRadar
+    keywordRank.value = data.keywordRank
+    topUsers.value = data.topUsers
+    recentActivity.value = data.recentActivity
+    tagData.value = data.tagData
+    sensitivePosts.value = data.sensitivePosts
+  } finally {
+    loading.value = false
+  }
+}
+
 onMounted(() => {
   updateTime()
   timer = setInterval(updateTime, 1000)
+  loadData()
+  refreshTimer = setInterval(loadData, 15000)
 })
 
 onUnmounted(() => {
   clearInterval(timer)
+  clearInterval(refreshTimer)
 })
 </script>
 
@@ -166,5 +198,29 @@ onUnmounted(() => {
   margin-left: 0.5rem;
   text-transform: none;
   font-weight: 400;
+}
+
+.dashboard__loading {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.dashboard__loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 </style>

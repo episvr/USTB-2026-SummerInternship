@@ -6,7 +6,7 @@
     </div>
     <div class="recent-activity__list">
       <div
-        v-for="item in activities"
+        v-for="item in visibleActivities"
         :key="item.time + item.content"
         class="recent-activity__item"
       >
@@ -15,13 +15,25 @@
         <span class="recent-activity__content">{{ item.content }}</span>
       </div>
     </div>
+    <button v-if="activities.length > visibleCount" class="collapse-toggle" @click="expanded = !expanded">
+      {{ expanded ? '收起 ▲' : `展开全部 ${activities.length} 条 ▼` }}
+    </button>
   </div>
 </template>
 
 <script setup>
-defineProps({
-  activities: Array
+import { ref, computed } from 'vue'
+
+const props = defineProps({
+  activities: Array,
+  visibleCount: { type: Number, default: 8 }
 })
+
+const expanded = ref(false)
+
+const visibleActivities = computed(() =>
+  expanded.value ? props.activities : props.activities.slice(0, props.visibleCount)
+)
 </script>
 
 <style scoped>
@@ -85,5 +97,22 @@ defineProps({
 .recent-activity__list::-webkit-scrollbar-thumb {
   background: rgba(148, 163, 184, 0.3);
   border-radius: 2px;
+}
+
+.collapse-toggle {
+  align-self: center;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--primary);
+  font-size: 0.8rem;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 0.25rem;
+}
+
+.collapse-toggle:hover {
+  background: rgba(59, 130, 246, 0.1);
 }
 </style>

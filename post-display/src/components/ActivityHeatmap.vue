@@ -17,7 +17,7 @@ const props = defineProps({
 const chartRef = ref(null)
 let chart = null
 
-const hours = ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00']
+const hours = ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00']
 const days = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 
 const initChart = () => {
@@ -31,6 +31,7 @@ const setOption = () => {
   if (!chart) return
   chart.setOption({
     backgroundColor: 'transparent',
+    animationDurationUpdate: 800,
     tooltip: {
       position: 'top',
       formatter: (p) => `${p.name}<br/>活跃度: <b>${p.data[2]}</b>`
@@ -57,7 +58,7 @@ const setOption = () => {
     },
     visualMap: {
       min: 0,
-      max: 120,
+      max: 250,
       calculable: true,
       orient: 'horizontal',
       left: 'center',

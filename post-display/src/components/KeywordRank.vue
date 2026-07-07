@@ -6,7 +6,7 @@
     </div>
     <div class="keyword-rank__list">
       <div
-        v-for="(item, index) in keywords"
+        v-for="(item, index) in visibleKeywords"
         :key="item.word"
         class="keyword-rank__item"
       >
@@ -20,13 +20,25 @@
         </span>
       </div>
     </div>
+    <button v-if="keywords.length > visibleCount" class="collapse-toggle" @click="expanded = !expanded">
+      {{ expanded ? '收起 ▲' : `展开全部 ${keywords.length} 条 ▼` }}
+    </button>
   </div>
 </template>
 
 <script setup>
-defineProps({
-  keywords: Array
+import { ref, computed } from 'vue'
+
+const props = defineProps({
+  keywords: Array,
+  visibleCount: { type: Number, default: 10 }
 })
+
+const expanded = ref(false)
+
+const visibleKeywords = computed(() =>
+  expanded.value ? props.keywords : props.keywords.slice(0, props.visibleCount)
+)
 
 const trendIcon = (trend) => {
   const map = { up: '↑', down: '↓', stable: '−' }
@@ -109,5 +121,21 @@ const trendIcon = (trend) => {
 
 .keyword-rank__trend--stable {
   color: var(--muted);
+}
+
+.collapse-toggle {
+  align-self: center;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--primary);
+  font-size: 0.8rem;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.collapse-toggle:hover {
+  background: rgba(59, 130, 246, 0.1);
 }
 </style>

@@ -274,7 +274,7 @@ export const activityHeatmap = (() => {
     ACTIVITY_HOURS.forEach((hour, hi) => {
       const hourBase = [5, 2, 1, 3, 6, 8, 7, 9, 6, 5, 7, 4][hi % 12]
       const variance = faker.number.int({ min: -3, max: 3 })
-      result.push([day, hour, Math.max(0, dayBase + hourBase * dayAmp + variance)])
+      result.push([hour, day, Math.max(0, dayBase + hourBase * dayAmp + variance)])
     })
   })
   return result

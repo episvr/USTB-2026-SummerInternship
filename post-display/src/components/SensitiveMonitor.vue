@@ -18,7 +18,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="post in posts" :key="post.id">
+          <tr v-for="post in visiblePosts" :key="post.id">
             <td class="sensitive-monitor__id">{{ post.id }}</td>
             <td class="sensitive-monitor__title">{{ post.title }}</td>
             <td>
@@ -52,13 +52,25 @@
         </tbody>
       </table>
     </div>
+    <button v-if="posts.length > visibleCount" class="collapse-toggle" @click="expanded = !expanded">
+      {{ expanded ? '收起 ▲' : `展开全部 ${posts.length} 条 ▼` }}
+    </button>
   </div>
 </template>
 
 <script setup>
-defineProps({
-  posts: Array
+import { ref, computed } from 'vue'
+
+const props = defineProps({
+  posts: Array,
+  visibleCount: { type: Number, default: 8 }
 })
+
+const expanded = ref(false)
+
+const visiblePosts = computed(() =>
+  expanded.value ? props.posts : props.posts.slice(0, props.visibleCount)
+)
 
 const levelText = (level) => {
   const map = { low: '低', medium: '中', high: '高' }
@@ -171,5 +183,22 @@ const statusText = (status) => {
 .sensitive-monitor__time {
   color: var(--muted);
   white-space: nowrap;
+}
+
+.collapse-toggle {
+  align-self: center;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--primary);
+  font-size: 0.8rem;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 0.25rem;
+}
+
+.collapse-toggle:hover {
+  background: rgba(59, 130, 246, 0.1);
 }
 </style>

@@ -1,18 +1,18 @@
 <template>
-  <div class="stat-card">
+  <div class="stat-card" :class="{ 'stat-card--updated': updated }">
     <div class="stat-card__icon" :class="`stat-card__icon--${variant}`">
       {{ icon }}
     </div>
     <div class="stat-card__body">
       <span class="stat-card__label">{{ label }}</span>
-      <span class="stat-card__value">{{ formattedValue }}</span>
+      <span class="stat-card__value">{{ displayValue }}</span>
       <span v-if="trend" class="stat-card__trend">{{ trend }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 
 const props = defineProps({
   icon: String,
@@ -25,11 +25,44 @@ const props = defineProps({
   trend: String
 })
 
-const formattedValue = computed(() => {
-  if (typeof props.value === 'number') {
-    return props.value.toLocaleString()
+const displayValue = ref('0')
+const updated = ref(false)
+let animFrame = null
+
+const formatNum = (n) => {
+  if (typeof n === 'number') return n.toLocaleString()
+  return n
+}
+
+const animateValue = (from, to, duration = 800) => {
+  if (animFrame) cancelAnimationFrame(animFrame)
+  const start = performance.now()
+  const fromNum = typeof from === 'number' ? from : 0
+  const toNum = typeof to === 'number' ? to : 0
+
+  const step = (now) => {
+    const elapsed = now - start
+    const progress = Math.min(elapsed / duration, 1)
+    const eased = 1 - Math.pow(1 - progress, 3)
+    const current = Math.round(fromNum + (toNum - fromNum) * eased)
+    displayValue.value = formatNum(current)
+    if (progress < 1) {
+      animFrame = requestAnimationFrame(step)
+    } else {
+      displayValue.value = formatNum(toNum)
+    }
   }
-  return props.value
+  animFrame = requestAnimationFrame(step)
+}
+
+watch(() => props.value, (newVal, oldVal) => {
+  animateValue(oldVal, newVal)
+  updated.value = true
+  setTimeout(() => { updated.value = false }, 1200)
+})
+
+onMounted(() => {
+  displayValue.value = formatNum(props.value)
 })
 </script>
 
@@ -43,12 +76,17 @@ const formattedValue = computed(() => {
   display: flex;
   align-items: center;
   gap: 1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.4s;
 }
 
 .stat-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.stat-card--updated {
+  border-color: var(--primary);
+  box-shadow: 0 4px 24px rgba(59, 130, 246, 0.15);
 }
 
 .stat-card__icon {
