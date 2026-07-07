@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>霓虹贪吃蛇 | Neon Snake</title>
+    <meta name="description" content="一个使用 Vite 构建的高完成度霓虹风格贪吃蛇游戏" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet" />
+    <script type="module" src="/main.js"></script>
+  </head>
+  <body>
+    <div class="background">
+      <div class="grid-floor"></div>
+      <div class="glow glow-1"></div>
+      <div class="glow glow-2"></div>
+    </div>
+
+    <div class="app">
+      <header class="header">
+        <h1 class="title">
+          <span class="title__neon">NEON</span>
+          <span class="title__sub">SNAKE</span>
+        </h1>
+        <div class="stats">
+          <div class="stat-card">
+            <span class="stat-card__label">得分</span>
+            <span id="score" class="stat-card__value">0</span>
+          </div>
+          <div class="stat-card stat-card--best">
+            <span class="stat-card__label">最高</span>
+            <span id="best-score" class="stat-card__value">0</span>
+          </div>
+          <div class="stat-card stat-card--level">
+            <span class="stat-card__label">等级</span>
+            <span id="level" class="stat-card__value">1</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="game-area">
+        <div class="canvas-wrap">
+          <canvas id="game" width="600" height="600"></canvas>
+
+          <div id="overlay" class="overlay">
+            <div class="overlay__content">
+              <h2 id="overlay-title" class="overlay__title">霓虹贪吃蛇</h2>
+              <p id="overlay-desc" class="overlay__desc">用方向键或 WASD 控制小蛇</p>
+
+              <div class="difficulty">
+                <span class="difficulty__label">难度</span>
+                <div class="difficulty__options">
+                  <button class="difficulty__btn is-active" data-difficulty="normal">普通</button>
+                  <button class="difficulty__btn" data-difficulty="hard">困难</button>
+                  <button class="difficulty__btn" data-difficulty="insane">疯狂</button>
+                </div>
+              </div>
+
+              <div class="mode-toggle">
+                <span class="mode-toggle__label">Vim 模式</span>
+                <button id="vim-toggle" class="mode-toggle__btn" aria-pressed="false">
+                  <span class="mode-toggle__thumb"></span>
+                </button>
+              </div>
+
+              <button id="start-btn" class="btn btn--primary">开始游戏</button>
+            </div>
+          </div>
+
+          <button id="pause-btn" class="pause-btn" aria-label="暂停" title="暂停 (空格)">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <rect x="6" y="4" width="4" height="16" rx="1" />
+              <rect x="14" y="4" width="4" height="16" rx="1" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="mobile-controls">
+          <button class="dpad__btn dpad__btn--up" data-dir="up" aria-label="上"></button>
+          <div class="dpad__row">
+            <button class="dpad__btn dpad__btn--left" data-dir="left" aria-label="左"></button>
+            <button class="dpad__btn dpad__btn--right" data-dir="right" aria-label="右"></button>
+          </div>
+          <button class="dpad__btn dpad__btn--down" data-dir="down" aria-label="下"></button>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p id="controls-hint">
+          <span class="key">↑↓←→</span> /
+          <span class="key">WASD</span> 移动 ·
+          <span class="key">空格</span> 暂停
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
