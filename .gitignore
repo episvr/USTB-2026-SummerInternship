@@ -1,20 +1,18 @@
-# 本地 Node.js 运行环境
+#  Node.js 
 .node/
-
-# 依赖
 node_modules/
 
-# 构建产物
+# build artifact
 dist/
 
-# 日志
+# logs
 *.log
 
-# 系统文件
+# sysfiles
 .DS_Store
 Thumbs.db
 
-# 编辑器
+# editor
 .vscode/
 .idea/
 *.swp
