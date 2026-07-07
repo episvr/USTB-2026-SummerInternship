@@ -17,7 +17,7 @@ import { computed } from 'vue'
 const props = defineProps({
   icon: String,
   label: String,
-  value: Number,
+  value: [Number, String],
   variant: {
     type: String,
     default: 'primary'
@@ -26,7 +26,10 @@ const props = defineProps({
 })
 
 const formattedValue = computed(() => {
-  return props.value.toLocaleString()
+  if (typeof props.value === 'number') {
+    return props.value.toLocaleString()
+  }
+  return props.value
 })
 </script>
 
@@ -72,6 +75,16 @@ const formattedValue = computed(() => {
 .stat-card__icon--warning {
   background: rgba(245, 158, 11, 0.12);
   color: var(--warning);
+}
+
+.stat-card__icon--success {
+  background: rgba(34, 197, 94, 0.12);
+  color: var(--success);
+}
+
+.stat-card__icon--info {
+  background: rgba(6, 182, 212, 0.12);
+  color: #06b6d4;
 }
 
 .stat-card__icon--danger {
