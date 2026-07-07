@@ -8,4 +8,5 @@
 - [post-display](./post-display) — Vue 数据大屏，展示帖子数量、标签与敏感舆论管控。
 
 ![snake-vim 预览](./image/snake-vim.png)
+![post-dispaly预览](./image/post-display.png)
 
