@@ -16,14 +16,16 @@ d3/
 ├── dashboard/              # Vue 3 + ECharts 前端
 │   ├── Dockerfile
 │   ├── nginx.conf
-│   └── src/
-│       ├── App.vue
-│       ├── parser.js       # .dat 解析
-│       └── components/     # 各可视化组件
+│   ├── package.json
+│   ├── src/
+│   │   ├── App.vue
+│   │   ├── parser.js       # .dat 解析
+│   │   └── components/     # 各可视化组件
+│   └── public/
+│       └── data/           # tsar 原始数据（disk_tsar / pref_tsar / host_detail / mod_detail）
 ├── docker-compose.yml      # 一键编排（db + backend + frontend）
 ├── er_diagram.md           # 数据库 ER 图与表结构说明
-├── aggregate_hourly.py     # 按小时聚合脚本
-└── *.dat                   # tsar 原始数据（disk_tsar / pref_tsar / host_detail / mod_detail）
+└── aggregate_hourly.py     # 按小时聚合脚本
 ```
 
 ## 架构
