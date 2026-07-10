@@ -17,3 +17,12 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# data analyse
+**/*.csv
+
+# python venv
+**/venv/
+
+# python files
+**/__pycache__/
