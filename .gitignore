@@ -26,3 +26,6 @@ Thumbs.db
 
 # python files
 **/__pycache__/
+
+# hermes-agent docs/site assets (not source code)
+/hermes-config/website/
