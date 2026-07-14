@@ -40,8 +40,8 @@ const DEFAULT_LAYOUT: ThemeLayout = {
 
 export const defaultTheme: DashboardTheme = {
   name: "default",
-  label: "Hermes Teal",
-  description: "Classic dark teal — the canonical Hermes look",
+  label: "Aurobo Dark",
+  description: "Classic dark — the canonical Aurobo look",
   palette: {
     background: { hex: "#041c1c", alpha: 1 },
     midground: { hex: "#ffe6cb", alpha: 1 },
@@ -52,6 +52,10 @@ export const defaultTheme: DashboardTheme = {
   typography: DEFAULT_TYPOGRAPHY,
   layout: DEFAULT_LAYOUT,
   terminalBackground: "#000000",
+  assets: {
+    bg: "assets/background.jpg",
+    hero: "assets/avatar.png",
+  },
 };
 
 export const midnightTheme: DashboardTheme = {
@@ -214,8 +218,8 @@ export const nousBlueTheme: DashboardTheme = {
  */
 export const defaultLargeTheme: DashboardTheme = {
   name: "default-large",
-  label: "Hermes Teal (Large)",
-  description: "Hermes Teal with bigger fonts and roomier spacing",
+  label: "Aurobo Dark (Large)",
+  description: "Aurobo Dark with bigger fonts and roomier spacing",
   palette: defaultTheme.palette,
   typography: {
     ...DEFAULT_TYPOGRAPHY,

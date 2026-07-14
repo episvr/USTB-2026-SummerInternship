@@ -39,46 +39,46 @@ def _inherited_flag(parser, *args, **kwargs):
 
 _EPILOGUE = """
 Examples:
-    hermes                        Start interactive chat
-    hermes chat -q "Hello"        Single query mode
-    hermes --tui                  Launch the modern TUI (or set display.interface: tui)
-    hermes --cli                  Force the classic REPL (overrides display.interface: tui)
-    hermes -c                     Resume the most recent session
-    hermes -c "my project"        Resume a session by name (latest in lineage)
-    hermes --resume <session_id>  Resume a specific session by ID
-    hermes setup                  Run setup wizard
-    hermes logout                 Clear stored authentication
-    hermes auth add <provider>    Add a pooled credential
-    hermes auth list              List pooled credentials
-    hermes auth remove <p> <t>    Remove pooled credential by index, id, or label
-    hermes auth reset <provider>  Clear exhaustion status for a provider
-    hermes model                  Select default model
-    hermes fallback [list]        Show fallback provider chain
-    hermes fallback add           Add a fallback provider (same picker as `hermes model`)
-    hermes fallback remove        Remove a fallback provider from the chain
-    hermes config                 View configuration
-    hermes config edit            Edit config in $EDITOR
-    hermes config set model gpt-4 Set a config value
-    hermes gateway                Run messaging gateway
-    hermes -s hermes-agent-dev,github-auth
-    hermes -w                     Start in isolated git worktree
-    hermes gateway install        Install gateway background service
-    hermes sessions list          List past sessions
-    hermes sessions browse        Interactive session picker
-    hermes sessions rename ID T   Rename/title a session
-    hermes logs                   View agent.log (last 50 lines)
-    hermes logs -f                Follow agent.log in real time
-    hermes logs errors            View errors.log
-    hermes logs --since 1h        Lines from the last hour
-    hermes debug share             Upload debug report for support
-    hermes console                Open the safe Hermes command console
-    hermes update                 Update to latest version
-    hermes dashboard              Start web UI dashboard (port 9119)
-    hermes dashboard --stop       Stop running dashboard processes
-    hermes dashboard --status     List running dashboard processes
+    aurobo                        Start interactive chat
+    aurobo chat -q "Hello"        Single query mode
+    aurobo --tui                  Launch the modern TUI (or set display.interface: tui)
+    aurobo --cli                  Force the classic REPL (overrides display.interface: tui)
+    aurobo -c                     Resume the most recent session
+    aurobo -c "my project"        Resume a session by name (latest in lineage)
+    aurobo --resume <session_id>  Resume a specific session by ID
+    aurobo setup                  Run setup wizard
+    aurobo logout                 Clear stored authentication
+    aurobo auth add <provider>    Add a pooled credential
+    aurobo auth list              List pooled credentials
+    aurobo auth remove <p> <t>    Remove pooled credential by index, id, or label
+    aurobo auth reset <provider>  Clear exhaustion status for a provider
+    aurobo model                  Select default model
+    aurobo fallback [list]        Show fallback provider chain
+    aurobo fallback add           Add a fallback provider (same picker as `aurobo model`)
+    aurobo fallback remove        Remove a fallback provider from the chain
+    aurobo config                 View configuration
+    aurobo config edit            Edit config in $EDITOR
+    aurobo config set model gpt-4 Set a config value
+    aurobo gateway                Run messaging gateway
+    aurobo -s hermes-agent-dev,github-auth
+    aurobo -w                     Start in isolated git worktree
+    aurobo gateway install        Install gateway background service
+    aurobo sessions list          List past sessions
+    aurobo sessions browse        Interactive session picker
+    aurobo sessions rename ID T   Rename/title a session
+    aurobo logs                   View agent.log (last 50 lines)
+    aurobo logs -f                Follow agent.log in real time
+    aurobo logs errors            View errors.log
+    aurobo logs --since 1h        Lines from the last hour
+    aurobo debug share             Upload debug report for support
+    aurobo console                Open the safe Aurobo command console
+    aurobo update                 Update to latest version
+    aurobo dashboard              Start web UI dashboard (port 9119)
+    aurobo dashboard --stop       Stop running dashboard processes
+    aurobo dashboard --status     List running dashboard processes
 
 For more help on a command:
-    hermes <command> --help
+    aurobo <command> --help
 """
 
 
@@ -90,8 +90,8 @@ def build_top_level_parser():
     other subparsers via ``subparsers.add_parser(...)``.
     """
     parser = argparse.ArgumentParser(
-        prog="hermes",
-        description="Hermes Agent - AI assistant with tool-calling capabilities",
+        prog="aurobo",
+        description="Aurobo Agent - AI assistant with tool-calling capabilities",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=_EPILOGUE,
     )

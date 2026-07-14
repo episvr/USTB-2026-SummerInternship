@@ -1,5 +1,5 @@
 """
-Single source of truth for provider identity in Hermes Agent.
+Single source of truth for provider identity in Aurobo Agent.
 
 Two data sources, merged at runtime:
 
@@ -7,7 +7,7 @@ Two data sources, merged at runtime:
    names, and full model metadata (context, cost, capabilities).  This is
    the primary database.
 
-2. **Hermes overlays** — transport type, auth patterns, aggregator flags,
+2. **Aurobo overlays** — transport type, auth patterns, aggregator flags,
    and additional env vars that models.dev doesn't track.  Small dict,
    maintained here.
 
@@ -28,12 +28,12 @@ from utils import base_url_host_matches, base_url_hostname
 logger = logging.getLogger(__name__)
 
 
-# -- Hermes overlay ----------------------------------------------------------
-# Hermes-specific metadata that models.dev doesn't provide.
+# -- Aurobo overlay ----------------------------------------------------------
+# Aurobo-specific metadata that models.dev doesn't provide.
 
 @dataclass(frozen=True)
-class HermesOverlay:
-    """Hermes-specific provider metadata layered on top of models.dev."""
+class AuroboOverlay:
+    """Aurobo-specific provider metadata layered on top of models.dev."""
 
     transport: str = "openai_chat"        # openai_chat | anthropic_messages | codex_responses
     is_aggregator: bool = False
@@ -43,176 +43,176 @@ class HermesOverlay:
     base_url_env_var: str = ""            # env var for user-custom base URL
 
 
-HERMES_OVERLAYS: Dict[str, HermesOverlay] = {
-    "moa": HermesOverlay(
+HERMES_OVERLAYS: Dict[str, AuroboOverlay] = {
+    "moa": AuroboOverlay(
         transport="openai_chat",
         auth_type="virtual",
         base_url_override="moa://local",
     ),
-    "openrouter": HermesOverlay(
+    "openrouter": AuroboOverlay(
         transport="openai_chat",
         is_aggregator=True,
         base_url_env_var="OPENROUTER_BASE_URL",
     ),
-    "nous": HermesOverlay(
+    "nous": AuroboOverlay(
         transport="openai_chat",
         auth_type="oauth_device_code",
         base_url_override="https://inference-api.nousresearch.com/v1",
     ),
-    "openai-codex": HermesOverlay(
+    "openai-codex": AuroboOverlay(
         transport="codex_responses",
         auth_type="oauth_external",
         base_url_override="https://chatgpt.com/backend-api/codex",
     ),
-    "openai-api": HermesOverlay(
+    "openai-api": AuroboOverlay(
         transport="codex_responses",
         base_url_override="https://api.openai.com/v1",
         base_url_env_var="OPENAI_BASE_URL",
     ),
-    "xai-oauth": HermesOverlay(
+    "xai-oauth": AuroboOverlay(
         transport="codex_responses",
         auth_type="oauth_external",
         base_url_override="https://api.x.ai/v1",
         base_url_env_var="XAI_BASE_URL",
     ),
-    "qwen-oauth": HermesOverlay(
+    "qwen-oauth": AuroboOverlay(
         transport="openai_chat",
         auth_type="oauth_external",
         base_url_override="https://portal.qwen.ai/v1",
         base_url_env_var="HERMES_QWEN_BASE_URL",
     ),
-    "lmstudio": HermesOverlay(
+    "lmstudio": AuroboOverlay(
         transport="openai_chat",
         auth_type="api_key",
         extra_env_vars=("LM_API_KEY",),
         base_url_override="http://127.0.0.1:1234/v1",
         base_url_env_var="LM_BASE_URL",
     ),
-    "copilot-acp": HermesOverlay(
+    "copilot-acp": AuroboOverlay(
         transport="codex_responses",
         auth_type="external_process",
         base_url_override="acp://copilot",
         base_url_env_var="COPILOT_ACP_BASE_URL",
     ),
-    "github-copilot": HermesOverlay(
+    "github-copilot": AuroboOverlay(
         transport="openai_chat",
         extra_env_vars=("COPILOT_GITHUB_TOKEN", "GH_TOKEN"),
     ),
-    "anthropic": HermesOverlay(
+    "anthropic": AuroboOverlay(
         transport="anthropic_messages",
         extra_env_vars=("ANTHROPIC_TOKEN", "CLAUDE_CODE_OAUTH_TOKEN"),
     ),
-    "zai": HermesOverlay(
+    "zai": AuroboOverlay(
         transport="openai_chat",
         extra_env_vars=("GLM_API_KEY", "ZAI_API_KEY", "Z_AI_API_KEY"),
         base_url_env_var="GLM_BASE_URL",
     ),
-    "kimi-for-coding": HermesOverlay(
+    "kimi-for-coding": AuroboOverlay(
         transport="openai_chat",
         base_url_env_var="KIMI_BASE_URL",
     ),
-    "stepfun": HermesOverlay(
+    "stepfun": AuroboOverlay(
         transport="openai_chat",
         extra_env_vars=("STEPFUN_API_KEY",),
         base_url_override="https://api.stepfun.ai/step_plan/v1",
         base_url_env_var="STEPFUN_BASE_URL",
     ),
-    "minimax": HermesOverlay(
+    "minimax": AuroboOverlay(
         transport="anthropic_messages",
         base_url_env_var="MINIMAX_BASE_URL",
     ),
-    "minimax-oauth": HermesOverlay(
+    "minimax-oauth": AuroboOverlay(
         transport="anthropic_messages",
         auth_type="oauth_external",
         base_url_override="https://api.minimax.io/anthropic",
     ),
-    "minimax-cn": HermesOverlay(
+    "minimax-cn": AuroboOverlay(
         transport="anthropic_messages",
         base_url_env_var="MINIMAX_CN_BASE_URL",
     ),
-    "deepseek": HermesOverlay(
+    "deepseek": AuroboOverlay(
         transport="openai_chat",
         base_url_env_var="DEEPSEEK_BASE_URL",
     ),
-    "alibaba": HermesOverlay(
+    "alibaba": AuroboOverlay(
         transport="openai_chat",
         base_url_env_var="DASHSCOPE_BASE_URL",
     ),
-    "alibaba-coding-plan": HermesOverlay(
+    "alibaba-coding-plan": AuroboOverlay(
         transport="openai_chat",
         base_url_env_var="ALIBABA_CODING_PLAN_BASE_URL",
     ),
-    "opencode": HermesOverlay(
+    "opencode": AuroboOverlay(
         transport="openai_chat",
         is_aggregator=True,
         base_url_env_var="OPENCODE_ZEN_BASE_URL",
     ),
-    "opencode-go": HermesOverlay(
+    "opencode-go": AuroboOverlay(
         transport="openai_chat",
         is_aggregator=True,
         base_url_env_var="OPENCODE_GO_BASE_URL",
     ),
-    "kilo": HermesOverlay(
+    "kilo": AuroboOverlay(
         transport="openai_chat",
         is_aggregator=True,
         base_url_env_var="KILOCODE_BASE_URL",
     ),
-    "huggingface": HermesOverlay(
+    "huggingface": AuroboOverlay(
         transport="openai_chat",
         is_aggregator=True,
         base_url_env_var="HF_BASE_URL",
     ),
-    "novita": HermesOverlay(
+    "novita": AuroboOverlay(
         transport="openai_chat",
         is_aggregator=True,
         base_url_env_var="NOVITA_BASE_URL",
     ),
-    "xai": HermesOverlay(
+    "xai": AuroboOverlay(
         transport="codex_responses",
         base_url_override="https://api.x.ai/v1",
         base_url_env_var="XAI_BASE_URL",
     ),
-    "nvidia": HermesOverlay(
+    "nvidia": AuroboOverlay(
         transport="openai_chat",
         base_url_override="https://integrate.api.nvidia.com/v1",
         base_url_env_var="NVIDIA_BASE_URL",
     ),
-    "xiaomi": HermesOverlay(
+    "xiaomi": AuroboOverlay(
         transport="openai_chat",
         base_url_env_var="XIAOMI_BASE_URL",
     ),
-    "tencent-tokenhub": HermesOverlay(
+    "tencent-tokenhub": AuroboOverlay(
         transport="openai_chat",
         base_url_env_var="TOKENHUB_BASE_URL",
     ),
-    "arcee": HermesOverlay(
+    "arcee": AuroboOverlay(
         transport="openai_chat",
         base_url_override="https://api.arcee.ai/api/v1",
         base_url_env_var="ARCEE_BASE_URL",
     ),
-    "gmi": HermesOverlay(
+    "gmi": AuroboOverlay(
         transport="openai_chat",
         extra_env_vars=("GMI_API_KEY",),
         base_url_override="https://api.gmi-serving.com/v1",
         base_url_env_var="GMI_BASE_URL",
     ),
-    "fireworks": HermesOverlay(
+    "fireworks": AuroboOverlay(
         transport="openai_chat",
         extra_env_vars=("FIREWORKS_API_KEY",),
         base_url_override="https://api.fireworks.ai/inference/v1",
     ),
-    "ollama-cloud": HermesOverlay(
+    "ollama-cloud": AuroboOverlay(
         transport="openai_chat",
         base_url_override="https://ollama.com/v1",
         base_url_env_var="OLLAMA_BASE_URL",
     ),
     # Azure Foundry: supports both OpenAI-style and Anthropic-style endpoints.
     # The transport is determined at runtime from config.yaml model.api_mode.
-    "azure-foundry": HermesOverlay(
+    "azure-foundry": AuroboOverlay(
         transport="openai_chat",  # default; overridden by api_mode in config
         base_url_env_var="AZURE_FOUNDRY_BASE_URL",
     ),
-    "bedrock": HermesOverlay(
+    "bedrock": AuroboOverlay(
         transport="bedrock_converse",
         auth_type="aws_sdk",
     ),

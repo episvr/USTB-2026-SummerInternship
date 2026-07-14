@@ -147,3 +147,13 @@ apps/desktop/demo/
 # PR body is the archive. See the hermes-agent-dev skill's
 # pr-infographic-workflow reference (storage rule + lapse #8 / #COMMIT-1).
 infographic/
+
+# Local build / package artifacts (AppImage, wheel, extracted squashfs, generated web assets, bundled images)
+aurobo.egg-info/
+build/
+squashfs-root/
+web/public/assets/
+apps/bootstrap-installer/public/avatar.png
+apps/bootstrap-installer/public/background.jpg
+assets/avatar.jpg
+assets/background.jpg

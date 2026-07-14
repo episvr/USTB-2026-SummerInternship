@@ -1,14 +1,14 @@
 """
-Hermes CLI - Unified command-line interface for Hermes Agent.
+Aurobo CLI - Unified command-line interface for Aurobo Agent.
 
 Provides subcommands for:
-- hermes chat          - Interactive chat (same as ./hermes)
-- hermes gateway       - Run gateway in foreground
-- hermes gateway start - Start gateway service
-- hermes gateway stop  - Stop gateway service
-- hermes setup         - Interactive setup wizard
-- hermes status        - Show status of all components
-- hermes cron          - Manage cron jobs
+- aurobo chat          - Interactive chat (same as ./aurobo)
+- aurobo gateway       - Run gateway in foreground
+- aurobo gateway start - Start gateway service
+- aurobo gateway stop  - Stop gateway service
+- aurobo setup         - Interactive setup wizard
+- aurobo status        - Show status of all components
+- aurobo cron          - Manage cron jobs
 """
 
 import os

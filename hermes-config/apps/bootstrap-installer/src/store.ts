@@ -315,7 +315,7 @@ export async function cancelInstall(): Promise<void> {
   await invoke('cancel_bootstrap')
 }
 
-export async function launchHermesDesktop(): Promise<void> {
+export async function launchAuroboDesktop(): Promise<void> {
   if (fakeMode()) throw new Error('Preview mode — launching is disabled.')
   const installRoot = $bootstrap.get().installRoot
   if (!installRoot) throw new Error('no install root')
@@ -355,7 +355,7 @@ const FAKE_INSTALL_STAGES: FakeStage[] = [
   { name: 'system-packages', title: 'System packages' },
   { name: 'uv', title: 'uv' },
   { name: 'python', title: 'Python environment' },
-  { name: 'repo', title: 'Hermes repository' },
+  { name: 'repo', title: 'Aurobo repository' },
   { name: 'dependencies', title: 'Python dependencies' },
   { name: 'node', title: 'Node runtime' },
   { name: 'desktop', title: 'Desktop app' }

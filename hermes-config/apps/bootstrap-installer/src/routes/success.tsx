@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { type CSSProperties } from 'react'
 import { HackeryButton } from '../components/hackery-button'
-import { launchHermesDesktop } from '../store'
+import { launchAuroboDesktop } from '../store'
 import { AlertCircle } from 'lucide-react'
 
 /*
@@ -23,7 +23,7 @@ export default function Success() {
     setError(null)
     setLaunching(true)
     try {
-      await launchHermesDesktop()
+      await launchAuroboDesktop()
       // On success the installer exits — control never returns here.
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e)
@@ -46,14 +46,14 @@ export default function Success() {
           }
         >
           <span>
-            <span>Hermes is ready</span>
+            <span>Aurobo is ready</span>
           </span>
-          <span aria-hidden="true">Hermes is ready</span>
+          <span aria-hidden="true">Aurobo is ready</span>
         </p>
 
         <p className="m-0 text-center text-base leading-normal tracking-tight text-muted-foreground">
           You can launch from here, or any time from your terminal with{' '}
-          <code className="font-mono text-sm text-foreground/80">hermes desktop</code>.
+          <code className="font-mono text-sm text-foreground/80">aurobo desktop</code>.
         </p>
       </div>
 
